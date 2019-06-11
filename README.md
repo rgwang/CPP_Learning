@@ -1,2 +1,2 @@
 # CPP_Learning
-This is used to make notes of "Absolute C++".
+This is used to make notes of "C++ Primer".
