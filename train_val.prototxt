@@ -10,11 +10,11 @@ layer {
   transform_param {
     mirror: true
     crop_size: 299
-    mean_file: "examples/inceptionv4/train_mean.binaryproto"
+    mean_file: "mean.binaryproto"
   }
   data_param {
-    source: "examples/inceptionv4/img_train_lmdb"
-    batch_size: 5
+    source: "train_lmdb"
+    batch_size: 3
     backend: LMDB
   }
 }
@@ -27,11 +27,13 @@ layer {
     phase: TEST
   }
   transform_param {
-    mean_file: "examples/inceptionv4/test_mean.binaryproto"
+    mirror: false
+    crop_size: 299
+    mean_file: "mean.binaryproto"
   }
   data_param {
-    source: "examples/inceptionv4/img_test_lmdb"
-    batch_size: 5
+    source: "val_lmdb"
+    batch_size: 2
     backend: LMDB
   }
 }
@@ -46,6 +48,9 @@ layer {
     pad: 0
     kernel_size: 3
     stride: 2
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -53,7 +58,10 @@ layer {
   type: "BatchNorm"
   bottom: "conv1_3x3_s2"
   top: "conv1_3x3_s2"
-  
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "conv1_3x3_s2_scale"
@@ -81,6 +89,9 @@ layer {
     pad: 0
     kernel_size: 3
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -88,7 +99,10 @@ layer {
   type: "BatchNorm"
   bottom: "conv2_3x3_s1"
   top: "conv2_3x3_s1"
-  
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "conv2_3x3_s1_scale"
@@ -116,6 +130,9 @@ layer {
     pad: 1
     kernel_size: 3
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -123,7 +140,10 @@ layer {
   type: "BatchNorm"
   bottom: "conv3_3x3_s1"
   top: "conv3_3x3_s1"
-  
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "conv3_3x3_s1_scale"
@@ -151,6 +171,9 @@ layer {
     pad: 0
     kernel_size: 3
     stride: 2
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -158,7 +181,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_stem1_3x3_s2"
   top: "inception_stem1_3x3_s2"
-  
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_stem1_3x3_s2_scale"
@@ -204,6 +230,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -211,7 +240,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_stem2_3x3_reduce"
   top: "inception_stem2_3x3_reduce"
-  
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_stem2_3x3_reduce_scale"
@@ -239,6 +271,9 @@ layer {
     pad: 0
     kernel_size: 3
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -246,7 +281,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_stem2_3x3"
   top: "inception_stem2_3x3"
-  
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_stem2_3x3_scale"
@@ -274,6 +312,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -281,7 +322,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_stem2_1x7_reduce"
   top: "inception_stem2_1x7_reduce"
-  
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_stem2_1x7_reduce_scale"
@@ -311,6 +355,9 @@ layer {
     pad_w: 3
     kernel_h: 1
     kernel_w: 7
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -318,7 +365,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_stem2_1x7"
   top: "inception_stem2_1x7"
-  
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_stem2_1x7_scale"
@@ -348,6 +398,9 @@ layer {
     pad_w: 0
     kernel_h: 7
     kernel_w: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -355,7 +408,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_stem2_7x1"
   top: "inception_stem2_7x1"
-  
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_stem2_7x1_scale"
@@ -383,6 +439,9 @@ layer {
     pad: 0
     kernel_size: 3
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -390,7 +449,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_stem2_3x3_2"
   top: "inception_stem2_3x3_2"
-  
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_stem2_3x3_2_scale"
@@ -425,6 +487,9 @@ layer {
     pad: 0
     kernel_size: 3
     stride: 2
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -432,7 +497,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_stem3_3x3_s2"
   top: "inception_stem3_3x3_s2"
-  
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_stem3_3x3_s2_scale"
@@ -478,6 +546,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -485,7 +556,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_a1_1x1_2"
   top: "inception_a1_1x1_2"
-  
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_a1_1x1_2_scale"
@@ -513,6 +587,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -520,7 +597,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_a1_3x3_reduce"
   top: "inception_a1_3x3_reduce"
-  
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_a1_3x3_reduce_scale"
@@ -548,6 +628,9 @@ layer {
     pad: 1
     kernel_size: 3
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -555,7 +638,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_a1_3x3"
   top: "inception_a1_3x3"
-  
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_a1_3x3_scale"
@@ -583,6 +669,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -590,7 +679,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_a1_3x3_2_reduce"
   top: "inception_a1_3x3_2_reduce"
-  
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_a1_3x3_2_reduce_scale"
@@ -618,6 +710,9 @@ layer {
     pad: 1
     kernel_size: 3
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -625,7 +720,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_a1_3x3_2"
   top: "inception_a1_3x3_2"
-  
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_a1_3x3_2_scale"
@@ -653,6 +751,9 @@ layer {
     pad: 1
     kernel_size: 3
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -660,7 +761,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_a1_3x3_3"
   top: "inception_a1_3x3_3"
-  
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_a1_3x3_3_scale"
@@ -700,6 +804,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -707,7 +814,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_a1_1x1"
   top: "inception_a1_1x1"
-  
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_a1_1x1_scale"
@@ -744,6 +854,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -751,7 +864,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_a2_1x1_2"
   top: "inception_a2_1x1_2"
-  
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_a2_1x1_2_scale"
@@ -779,6 +895,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -786,7 +905,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_a2_3x3_reduce"
   top: "inception_a2_3x3_reduce"
-  
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_a2_3x3_reduce_scale"
@@ -814,6 +936,9 @@ layer {
     pad: 1
     kernel_size: 3
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -821,7 +946,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_a2_3x3"
   top: "inception_a2_3x3"
-  
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_a2_3x3_scale"
@@ -849,6 +977,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -856,7 +987,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_a2_3x3_2_reduce"
   top: "inception_a2_3x3_2_reduce"
-  
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_a2_3x3_2_reduce_scale"
@@ -884,6 +1018,9 @@ layer {
     pad: 1
     kernel_size: 3
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -891,7 +1028,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_a2_3x3_2"
   top: "inception_a2_3x3_2"
-  
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_a2_3x3_2_scale"
@@ -919,6 +1059,9 @@ layer {
     pad: 1
     kernel_size: 3
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -926,7 +1069,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_a2_3x3_3"
   top: "inception_a2_3x3_3"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_a2_3x3_3_scale"
@@ -966,6 +1112,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -973,7 +1122,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_a2_1x1"
   top: "inception_a2_1x1"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_a2_1x1_scale"
@@ -1010,6 +1162,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -1017,7 +1172,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_a3_1x1_2"
   top: "inception_a3_1x1_2"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_a3_1x1_2_scale"
@@ -1045,6 +1203,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -1052,7 +1213,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_a3_3x3_reduce"
   top: "inception_a3_3x3_reduce"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_a3_3x3_reduce_scale"
@@ -1080,6 +1244,9 @@ layer {
     pad: 1
     kernel_size: 3
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -1087,7 +1254,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_a3_3x3"
   top: "inception_a3_3x3"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_a3_3x3_scale"
@@ -1115,6 +1285,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -1122,7 +1295,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_a3_3x3_2_reduce"
   top: "inception_a3_3x3_2_reduce"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_a3_3x3_2_reduce_scale"
@@ -1150,6 +1326,9 @@ layer {
     pad: 1
     kernel_size: 3
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -1157,7 +1336,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_a3_3x3_2"
   top: "inception_a3_3x3_2"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_a3_3x3_2_scale"
@@ -1185,6 +1367,9 @@ layer {
     pad: 1
     kernel_size: 3
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -1192,7 +1377,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_a3_3x3_3"
   top: "inception_a3_3x3_3"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_a3_3x3_3_scale"
@@ -1232,6 +1420,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -1239,7 +1430,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_a3_1x1"
   top: "inception_a3_1x1"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_a3_1x1_scale"
@@ -1276,6 +1470,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -1283,7 +1480,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_a4_1x1_2"
   top: "inception_a4_1x1_2"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_a4_1x1_2_scale"
@@ -1311,6 +1511,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -1318,7 +1521,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_a4_3x3_reduce"
   top: "inception_a4_3x3_reduce"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_a4_3x3_reduce_scale"
@@ -1346,6 +1552,9 @@ layer {
     pad: 1
     kernel_size: 3
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -1353,7 +1562,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_a4_3x3"
   top: "inception_a4_3x3"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_a4_3x3_scale"
@@ -1381,6 +1593,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -1388,7 +1603,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_a4_3x3_2_reduce"
   top: "inception_a4_3x3_2_reduce"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_a4_3x3_2_reduce_scale"
@@ -1416,6 +1634,9 @@ layer {
     pad: 1
     kernel_size: 3
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -1423,7 +1644,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_a4_3x3_2"
   top: "inception_a4_3x3_2"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_a4_3x3_2_scale"
@@ -1451,6 +1675,9 @@ layer {
     pad: 1
     kernel_size: 3
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -1458,7 +1685,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_a4_3x3_3"
   top: "inception_a4_3x3_3"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_a4_3x3_3_scale"
@@ -1498,6 +1728,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -1505,7 +1738,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_a4_1x1"
   top: "inception_a4_1x1"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_a4_1x1_scale"
@@ -1542,6 +1778,9 @@ layer {
     pad: 0
     kernel_size: 3
     stride: 2
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -1549,7 +1788,10 @@ layer {
   type: "BatchNorm"
   bottom: "reduction_a_3x3"
   top: "reduction_a_3x3"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "reduction_a_3x3_scale"
@@ -1577,6 +1819,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -1584,7 +1829,10 @@ layer {
   type: "BatchNorm"
   bottom: "reduction_a_3x3_2_reduce"
   top: "reduction_a_3x3_2_reduce"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "reduction_a_3x3_2_reduce_scale"
@@ -1612,6 +1860,9 @@ layer {
     pad: 1
     kernel_size: 3
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -1619,7 +1870,10 @@ layer {
   type: "BatchNorm"
   bottom: "reduction_a_3x3_2"
   top: "reduction_a_3x3_2"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "reduction_a_3x3_2_scale"
@@ -1647,6 +1901,9 @@ layer {
     pad: 0
     kernel_size: 3
     stride: 2
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -1654,7 +1911,10 @@ layer {
   type: "BatchNorm"
   bottom: "reduction_a_3x3_3"
   top: "reduction_a_3x3_3"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "reduction_a_3x3_3_scale"
@@ -1701,6 +1961,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -1708,7 +1971,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b1_1x1_2"
   top: "inception_b1_1x1_2"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b1_1x1_2_scale"
@@ -1736,6 +2002,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -1743,7 +2012,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b1_1x7_reduce"
   top: "inception_b1_1x7_reduce"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b1_1x7_reduce_scale"
@@ -1773,6 +2045,9 @@ layer {
     pad_w: 3
     kernel_h: 1
     kernel_w: 7
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -1780,6 +2055,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b1_1x7"
   top: "inception_b1_1x7"
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b1_1x7_scale"
@@ -1809,6 +2088,9 @@ layer {
     pad_w: 0
     kernel_h: 7
     kernel_w: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -1816,7 +2098,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b1_7x1"
   top: "inception_b1_7x1"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b1_7x1_scale"
@@ -1844,6 +2129,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -1851,7 +2139,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b1_7x1_2_reduce"
   top: "inception_b1_7x1_2_reduce"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b1_7x1_2_reduce_scale"
@@ -1881,6 +2172,9 @@ layer {
     pad_w: 0
     kernel_h: 7
     kernel_w: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -1888,7 +2182,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b1_7x1_2"
   top: "inception_b1_7x1_2"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b1_7x1_2_scale"
@@ -1918,6 +2215,9 @@ layer {
     pad_w: 3
     kernel_h: 1
     kernel_w: 7
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -1925,7 +2225,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b1_1x7_2"
   top: "inception_b1_1x7_2"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b1_1x7_2_scale"
@@ -1955,6 +2258,9 @@ layer {
     pad_w: 0
     kernel_h: 7
     kernel_w: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -1962,7 +2268,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b1_7x1_3"
   top: "inception_b1_7x1_3"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b1_7x1_3_scale"
@@ -1992,6 +2301,9 @@ layer {
     pad_w: 3
     kernel_h: 1
     kernel_w: 7
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -1999,7 +2311,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b1_1x7_3"
   top: "inception_b1_1x7_3"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b1_1x7_3_scale"
@@ -2039,6 +2354,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -2046,7 +2364,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b1_1x1"
   top: "inception_b1_1x1"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b1_1x1_scale"
@@ -2083,6 +2404,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -2090,7 +2414,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b2_1x1_2"
   top: "inception_b2_1x1_2"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b2_1x1_2_scale"
@@ -2118,6 +2445,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -2125,7 +2455,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b2_1x7_reduce"
   top: "inception_b2_1x7_reduce"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b2_1x7_reduce_scale"
@@ -2155,6 +2488,9 @@ layer {
     pad_w: 3
     kernel_h: 1
     kernel_w: 7
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -2162,8 +2498,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b2_1x7"
   top: "inception_b2_1x7"
-
-  
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b2_1x7_scale"
@@ -2193,6 +2531,9 @@ layer {
     pad_w: 0
     kernel_h: 7
     kernel_w: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -2200,9 +2541,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b2_7x1"
   top: "inception_b2_7x1"
-
-
-  
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b2_7x1_scale"
@@ -2230,6 +2572,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -2237,7 +2582,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b2_7x1_2_reduce"
   top: "inception_b2_7x1_2_reduce"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b2_7x1_2_reduce_scale"
@@ -2267,6 +2615,9 @@ layer {
     pad_w: 0
     kernel_h: 7
     kernel_w: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -2274,7 +2625,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b2_7x1_2"
   top: "inception_b2_7x1_2"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b2_7x1_2_scale"
@@ -2304,6 +2658,9 @@ layer {
     pad_w: 3
     kernel_h: 1
     kernel_w: 7
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -2311,7 +2668,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b2_1x7_2"
   top: "inception_b2_1x7_2"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b2_1x7_2_scale"
@@ -2341,6 +2701,9 @@ layer {
     pad_w: 0
     kernel_h: 7
     kernel_w: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -2348,7 +2711,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b2_7x1_3"
   top: "inception_b2_7x1_3"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b2_7x1_3_scale"
@@ -2378,6 +2744,9 @@ layer {
     pad_w: 3
     kernel_h: 1
     kernel_w: 7
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -2385,7 +2754,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b2_1x7_3"
   top: "inception_b2_1x7_3"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b2_1x7_3_scale"
@@ -2425,6 +2797,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -2432,7 +2807,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b2_1x1"
   top: "inception_b2_1x1"
- 
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b2_1x1_scale"
@@ -2469,6 +2847,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -2476,7 +2857,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b3_1x1_2"
   top: "inception_b3_1x1_2"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b3_1x1_2_scale"
@@ -2504,6 +2888,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -2511,7 +2898,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b3_1x7_reduce"
   top: "inception_b3_1x7_reduce"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b3_1x7_reduce_scale"
@@ -2541,6 +2931,9 @@ layer {
     pad_w: 3
     kernel_h: 1
     kernel_w: 7
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -2548,6 +2941,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b3_1x7"
   top: "inception_b3_1x7"
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b3_1x7_scale"
@@ -2577,6 +2974,9 @@ layer {
     pad_w: 0
     kernel_h: 7
     kernel_w: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -2584,7 +2984,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b3_7x1"
   top: "inception_b3_7x1"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b3_7x1_scale"
@@ -2612,6 +3015,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -2619,7 +3025,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b3_7x1_2_reduce"
   top: "inception_b3_7x1_2_reduce"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b3_7x1_2_reduce_scale"
@@ -2649,6 +3058,9 @@ layer {
     pad_w: 0
     kernel_h: 7
     kernel_w: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -2656,7 +3068,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b3_7x1_2"
   top: "inception_b3_7x1_2"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b3_7x1_2_scale"
@@ -2686,6 +3101,9 @@ layer {
     pad_w: 3
     kernel_h: 1
     kernel_w: 7
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -2693,7 +3111,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b3_1x7_2"
   top: "inception_b3_1x7_2"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b3_1x7_2_scale"
@@ -2723,6 +3144,9 @@ layer {
     pad_w: 0
     kernel_h: 7
     kernel_w: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -2730,7 +3154,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b3_7x1_3"
   top: "inception_b3_7x1_3"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b3_7x1_3_scale"
@@ -2760,6 +3187,9 @@ layer {
     pad_w: 3
     kernel_h: 1
     kernel_w: 7
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -2767,7 +3197,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b3_1x7_3"
   top: "inception_b3_1x7_3"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b3_1x7_3_scale"
@@ -2807,6 +3240,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -2814,6 +3250,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b3_1x1"
   top: "inception_b3_1x1"
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b3_1x1_scale"
@@ -2850,6 +3290,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -2857,7 +3300,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b4_1x1_2"
   top: "inception_b4_1x1_2"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b4_1x1_2_scale"
@@ -2885,6 +3331,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -2892,7 +3341,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b4_1x7_reduce"
   top: "inception_b4_1x7_reduce"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b4_1x7_reduce_scale"
@@ -2922,6 +3374,9 @@ layer {
     pad_w: 3
     kernel_h: 1
     kernel_w: 7
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -2929,7 +3384,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b4_1x7"
   top: "inception_b4_1x7"
- 
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b4_1x7_scale"
@@ -2959,6 +3417,9 @@ layer {
     pad_w: 0
     kernel_h: 7
     kernel_w: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -2966,6 +3427,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b4_7x1"
   top: "inception_b4_7x1"
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b4_7x1_scale"
@@ -2993,6 +3458,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -3000,7 +3468,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b4_7x1_2_reduce"
   top: "inception_b4_7x1_2_reduce"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b4_7x1_2_reduce_scale"
@@ -3030,6 +3501,9 @@ layer {
     pad_w: 0
     kernel_h: 7
     kernel_w: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -3037,7 +3511,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b4_7x1_2"
   top: "inception_b4_7x1_2"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b4_7x1_2_scale"
@@ -3067,6 +3544,9 @@ layer {
     pad_w: 3
     kernel_h: 1
     kernel_w: 7
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -3074,7 +3554,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b4_1x7_2"
   top: "inception_b4_1x7_2"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b4_1x7_2_scale"
@@ -3104,6 +3587,9 @@ layer {
     pad_w: 0
     kernel_h: 7
     kernel_w: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -3111,7 +3597,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b4_7x1_3"
   top: "inception_b4_7x1_3"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b4_7x1_3_scale"
@@ -3141,6 +3630,9 @@ layer {
     pad_w: 3
     kernel_h: 1
     kernel_w: 7
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -3148,7 +3640,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b4_1x7_3"
   top: "inception_b4_1x7_3"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b4_1x7_3_scale"
@@ -3188,6 +3683,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -3195,7 +3693,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b4_1x1"
   top: "inception_b4_1x1"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b4_1x1_scale"
@@ -3232,6 +3733,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -3239,7 +3743,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b5_1x1_2"
   top: "inception_b5_1x1_2"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b5_1x1_2_scale"
@@ -3267,6 +3774,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -3274,7 +3784,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b5_1x7_reduce"
   top: "inception_b5_1x7_reduce"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b5_1x7_reduce_scale"
@@ -3304,6 +3817,9 @@ layer {
     pad_w: 3
     kernel_h: 1
     kernel_w: 7
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -3311,7 +3827,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b5_1x7"
   top: "inception_b5_1x7"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b5_1x7_scale"
@@ -3341,6 +3860,9 @@ layer {
     pad_w: 0
     kernel_h: 7
     kernel_w: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -3348,7 +3870,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b5_7x1"
   top: "inception_b5_7x1"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b5_7x1_scale"
@@ -3376,6 +3901,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -3383,7 +3911,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b5_7x1_2_reduce"
   top: "inception_b5_7x1_2_reduce"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b5_7x1_2_reduce_scale"
@@ -3413,6 +3944,9 @@ layer {
     pad_w: 0
     kernel_h: 7
     kernel_w: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -3420,7 +3954,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b5_7x1_2"
   top: "inception_b5_7x1_2"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b5_7x1_2_scale"
@@ -3450,6 +3987,9 @@ layer {
     pad_w: 3
     kernel_h: 1
     kernel_w: 7
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -3457,7 +3997,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b5_1x7_2"
   top: "inception_b5_1x7_2"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b5_1x7_2_scale"
@@ -3487,6 +4030,9 @@ layer {
     pad_w: 0
     kernel_h: 7
     kernel_w: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -3494,7 +4040,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b5_7x1_3"
   top: "inception_b5_7x1_3"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b5_7x1_3_scale"
@@ -3524,6 +4073,9 @@ layer {
     pad_w: 3
     kernel_h: 1
     kernel_w: 7
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -3531,7 +4083,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b5_1x7_3"
   top: "inception_b5_1x7_3"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b5_1x7_3_scale"
@@ -3571,6 +4126,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -3578,7 +4136,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b5_1x1"
   top: "inception_b5_1x1"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b5_1x1_scale"
@@ -3615,6 +4176,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -3622,6 +4186,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b6_1x1_2"
   top: "inception_b6_1x1_2"
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b6_1x1_2_scale"
@@ -3649,6 +4217,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -3656,7 +4227,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b6_1x7_reduce"
   top: "inception_b6_1x7_reduce"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b6_1x7_reduce_scale"
@@ -3686,6 +4260,9 @@ layer {
     pad_w: 3
     kernel_h: 1
     kernel_w: 7
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -3693,7 +4270,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b6_1x7"
   top: "inception_b6_1x7"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b6_1x7_scale"
@@ -3723,6 +4303,9 @@ layer {
     pad_w: 0
     kernel_h: 7
     kernel_w: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -3730,7 +4313,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b6_7x1"
   top: "inception_b6_7x1"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b6_7x1_scale"
@@ -3758,6 +4344,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -3765,7 +4354,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b6_7x1_2_reduce"
   top: "inception_b6_7x1_2_reduce"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b6_7x1_2_reduce_scale"
@@ -3795,6 +4387,9 @@ layer {
     pad_w: 0
     kernel_h: 7
     kernel_w: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -3802,7 +4397,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b6_7x1_2"
   top: "inception_b6_7x1_2"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b6_7x1_2_scale"
@@ -3832,6 +4430,9 @@ layer {
     pad_w: 3
     kernel_h: 1
     kernel_w: 7
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -3839,7 +4440,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b6_1x7_2"
   top: "inception_b6_1x7_2"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b6_1x7_2_scale"
@@ -3869,6 +4473,9 @@ layer {
     pad_w: 0
     kernel_h: 7
     kernel_w: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -3876,7 +4483,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b6_7x1_3"
   top: "inception_b6_7x1_3"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b6_7x1_3_scale"
@@ -3906,6 +4516,9 @@ layer {
     pad_w: 3
     kernel_h: 1
     kernel_w: 7
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -3913,7 +4526,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b6_1x7_3"
   top: "inception_b6_1x7_3"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b6_1x7_3_scale"
@@ -3953,6 +4569,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -3960,7 +4579,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b6_1x1"
   top: "inception_b6_1x1"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b6_1x1_scale"
@@ -3997,6 +4619,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -4004,7 +4629,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b7_1x1_2"
   top: "inception_b7_1x1_2"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b7_1x1_2_scale"
@@ -4032,6 +4660,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -4039,7 +4670,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b7_1x7_reduce"
   top: "inception_b7_1x7_reduce"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b7_1x7_reduce_scale"
@@ -4069,6 +4703,9 @@ layer {
     pad_w: 3
     kernel_h: 1
     kernel_w: 7
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -4076,7 +4713,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b7_1x7"
   top: "inception_b7_1x7"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b7_1x7_scale"
@@ -4106,6 +4746,9 @@ layer {
     pad_w: 0
     kernel_h: 7
     kernel_w: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -4113,7 +4756,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b7_7x1"
   top: "inception_b7_7x1"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b7_7x1_scale"
@@ -4141,6 +4787,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -4148,6 +4797,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b7_7x1_2_reduce"
   top: "inception_b7_7x1_2_reduce"
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b7_7x1_2_reduce_scale"
@@ -4177,6 +4830,9 @@ layer {
     pad_w: 0
     kernel_h: 7
     kernel_w: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -4184,6 +4840,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b7_7x1_2"
   top: "inception_b7_7x1_2"
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b7_7x1_2_scale"
@@ -4213,6 +4873,9 @@ layer {
     pad_w: 3
     kernel_h: 1
     kernel_w: 7
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -4220,7 +4883,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b7_1x7_2"
   top: "inception_b7_1x7_2"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b7_1x7_2_scale"
@@ -4250,6 +4916,9 @@ layer {
     pad_w: 0
     kernel_h: 7
     kernel_w: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -4257,7 +4926,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b7_7x1_3"
   top: "inception_b7_7x1_3"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b7_7x1_3_scale"
@@ -4287,6 +4959,9 @@ layer {
     pad_w: 3
     kernel_h: 1
     kernel_w: 7
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -4294,7 +4969,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b7_1x7_3"
   top: "inception_b7_1x7_3"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b7_1x7_3_scale"
@@ -4334,6 +5012,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -4341,7 +5022,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_b7_1x1"
   top: "inception_b7_1x1"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_b7_1x1_scale"
@@ -4378,6 +5062,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -4385,7 +5072,10 @@ layer {
   type: "BatchNorm"
   bottom: "reduction_b_3x3_reduce"
   top: "reduction_b_3x3_reduce"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "reduction_b_3x3_reduce_scale"
@@ -4413,6 +5103,9 @@ layer {
     pad: 0
     kernel_size: 3
     stride: 2
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -4420,7 +5113,10 @@ layer {
   type: "BatchNorm"
   bottom: "reduction_b_3x3"
   top: "reduction_b_3x3"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "reduction_b_3x3_scale"
@@ -4448,6 +5144,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -4455,6 +5154,10 @@ layer {
   type: "BatchNorm"
   bottom: "reduction_b_1x7_reduce"
   top: "reduction_b_1x7_reduce"
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "reduction_b_1x7_reduce_scale"
@@ -4484,6 +5187,9 @@ layer {
     pad_w: 3
     kernel_h: 1
     kernel_w: 7
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -4491,7 +5197,10 @@ layer {
   type: "BatchNorm"
   bottom: "reduction_b_1x7"
   top: "reduction_b_1x7"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "reduction_b_1x7_scale"
@@ -4521,6 +5230,9 @@ layer {
     pad_w: 0
     kernel_h: 7
     kernel_w: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -4528,7 +5240,10 @@ layer {
   type: "BatchNorm"
   bottom: "reduction_b_7x1"
   top: "reduction_b_7x1"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "reduction_b_7x1_scale"
@@ -4556,6 +5271,9 @@ layer {
     pad: 0
     kernel_size: 3
     stride: 2
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -4563,7 +5281,10 @@ layer {
   type: "BatchNorm"
   bottom: "reduction_b_3x3_2"
   top: "reduction_b_3x3_2"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "reduction_b_3x3_2_scale"
@@ -4610,6 +5331,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -4617,7 +5341,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_c1_1x1_2"
   top: "inception_c1_1x1_2"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_c1_1x1_2_scale"
@@ -4645,6 +5372,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -4652,7 +5382,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_c1_1x1_3"
   top: "inception_c1_1x1_3"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_c1_1x1_3_scale"
@@ -4682,6 +5415,9 @@ layer {
     pad_w: 1
     kernel_h: 1
     kernel_w: 3
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -4689,7 +5425,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_c1_1x3"
   top: "inception_c1_1x3"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_c1_1x3_scale"
@@ -4719,6 +5458,9 @@ layer {
     pad_w: 0
     kernel_h: 3
     kernel_w: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -4726,7 +5468,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_c1_3x1"
   top: "inception_c1_3x1"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_c1_3x1_scale"
@@ -4754,6 +5499,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -4761,7 +5509,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_c1_1x1_4"
   top: "inception_c1_1x1_4"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_c1_1x1_4_scale"
@@ -4791,6 +5542,9 @@ layer {
     pad_w: 0
     kernel_h: 3
     kernel_w: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -4798,7 +5552,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_c1_3x1_2"
   top: "inception_c1_3x1_2"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_c1_3x1_2_scale"
@@ -4828,6 +5585,9 @@ layer {
     pad_w: 1
     kernel_h: 1
     kernel_w: 3
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -4835,7 +5595,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_c1_1x3_2"
   top: "inception_c1_1x3_2"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_c1_1x3_2_scale"
@@ -4865,6 +5628,9 @@ layer {
     pad_w: 1
     kernel_h: 1
     kernel_w: 3
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -4872,7 +5638,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_c1_1x3_3"
   top: "inception_c1_1x3_3"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_c1_1x3_3_scale"
@@ -4902,6 +5671,9 @@ layer {
     pad_w: 0
     kernel_h: 3
     kernel_w: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -4909,7 +5681,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_c1_3x1_3"
   top: "inception_c1_3x1_3"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_c1_3x1_3_scale"
@@ -4949,6 +5724,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -4956,7 +5734,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_c1_1x1"
   top: "inception_c1_1x1"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_c1_1x1_scale"
@@ -4995,6 +5776,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -5002,7 +5786,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_c2_1x1_2"
   top: "inception_c2_1x1_2"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_c2_1x1_2_scale"
@@ -5030,6 +5817,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -5037,7 +5827,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_c2_1x1_3"
   top: "inception_c2_1x1_3"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_c2_1x1_3_scale"
@@ -5067,6 +5860,9 @@ layer {
     pad_w: 1
     kernel_h: 1
     kernel_w: 3
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -5074,7 +5870,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_c2_1x3"
   top: "inception_c2_1x3"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_c2_1x3_scale"
@@ -5104,6 +5903,9 @@ layer {
     pad_w: 0
     kernel_h: 3
     kernel_w: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -5111,6 +5913,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_c2_3x1"
   top: "inception_c2_3x1"
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_c2_3x1_scale"
@@ -5138,6 +5944,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -5145,6 +5954,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_c2_1x1_4"
   top: "inception_c2_1x1_4"
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_c2_1x1_4_scale"
@@ -5174,6 +5987,9 @@ layer {
     pad_w: 0
     kernel_h: 3
     kernel_w: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -5181,7 +5997,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_c2_3x1_2"
   top: "inception_c2_3x1_2"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_c2_3x1_2_scale"
@@ -5211,6 +6030,9 @@ layer {
     pad_w: 1
     kernel_h: 1
     kernel_w: 3
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -5218,7 +6040,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_c2_1x3_2"
   top: "inception_c2_1x3_2"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_c2_1x3_2_scale"
@@ -5248,6 +6073,9 @@ layer {
     pad_w: 1
     kernel_h: 1
     kernel_w: 3
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -5255,7 +6083,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_c2_1x3_3"
   top: "inception_c2_1x3_3"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_c2_1x3_3_scale"
@@ -5285,6 +6116,9 @@ layer {
     pad_w: 0
     kernel_h: 3
     kernel_w: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -5292,7 +6126,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_c2_3x1_3"
   top: "inception_c2_3x1_3"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_c2_3x1_3_scale"
@@ -5332,6 +6169,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -5339,7 +6179,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_c2_1x1"
   top: "inception_c2_1x1"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_c2_1x1_scale"
@@ -5378,6 +6221,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -5385,7 +6231,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_c3_1x1_2"
   top: "inception_c3_1x1_2"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_c3_1x1_2_scale"
@@ -5413,6 +6262,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -5420,7 +6272,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_c3_1x1_3"
   top: "inception_c3_1x1_3"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_c3_1x1_3_scale"
@@ -5450,6 +6305,9 @@ layer {
     pad_w: 1
     kernel_h: 1
     kernel_w: 3
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -5457,7 +6315,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_c3_1x3"
   top: "inception_c3_1x3"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_c3_1x3_scale"
@@ -5487,6 +6348,9 @@ layer {
     pad_w: 0
     kernel_h: 3
     kernel_w: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -5494,7 +6358,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_c3_3x1"
   top: "inception_c3_3x1"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_c3_3x1_scale"
@@ -5522,6 +6389,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -5529,7 +6399,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_c3_1x1_4"
   top: "inception_c3_1x1_4"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_c3_1x1_4_scale"
@@ -5559,6 +6432,9 @@ layer {
     pad_w: 0
     kernel_h: 3
     kernel_w: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -5566,7 +6442,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_c3_3x1_2"
   top: "inception_c3_3x1_2"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_c3_3x1_2_scale"
@@ -5596,6 +6475,9 @@ layer {
     pad_w: 1
     kernel_h: 1
     kernel_w: 3
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -5603,7 +6485,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_c3_1x3_2"
   top: "inception_c3_1x3_2"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_c3_1x3_2_scale"
@@ -5633,6 +6518,9 @@ layer {
     pad_w: 1
     kernel_h: 1
     kernel_w: 3
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -5640,6 +6528,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_c3_1x3_3"
   top: "inception_c3_1x3_3"
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_c3_1x3_3_scale"
@@ -5669,6 +6561,9 @@ layer {
     pad_w: 0
     kernel_h: 3
     kernel_w: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -5676,7 +6571,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_c3_3x1_3"
   top: "inception_c3_3x1_3"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_c3_3x1_3_scale"
@@ -5716,6 +6614,9 @@ layer {
     pad: 0
     kernel_size: 1
     stride: 1
+	weight_filler {
+	  type: "msra"
+	}
   }
 }
 layer {
@@ -5723,7 +6624,10 @@ layer {
   type: "BatchNorm"
   bottom: "inception_c3_1x1"
   top: "inception_c3_1x1"
-
+  batch_norm_param {
+    use_global_stats: true
+    eps: 0.001
+  }
 }
 layer {
   name: "inception_c3_1x1_scale"
@@ -5784,7 +6688,7 @@ layer {
     decay_mult: 0
   }
   inner_product_param {
-    num_output: 5
+    num_output: 3
     weight_filler {
       type: "xavier"
     }
@@ -5800,7 +6704,7 @@ layer {
   bottom: "my-classifier"
   bottom: "label"
   top: "loss1/loss1"
-
+  loss_weight: 0.3
 }
 layer {
   name: "accuracy"
